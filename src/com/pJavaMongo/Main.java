@@ -1,5 +1,6 @@
 package com.pJavaMongo;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
@@ -16,15 +17,22 @@ public class Main {
         conectar_a_servidor();
         conectar_a_base("training");
         conectar_a_unha_colecion("scores");
+/*
         Document engadir = new Document("kind", "taller")
-                .append("score", 61.0)
+                .append("scores", 61.0)
                 .append("enderezo", new Document()
                         .append("rua", "urzaiz")
                         .append("numero", 4)
                         .append("cidade", "vigo"));
 
         colecion.insertOne(engadir);
+
+*/
+
+        colecion.updateOne(new BasicDBObject("kind", "taller"),new BasicDBObject("$set", new BasicDBObject("scores", 98.0)));
         client.close();
+
+
     }
 
 
