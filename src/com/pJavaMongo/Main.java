@@ -1,11 +1,15 @@
 package com.pJavaMongo;
 
 import com.mongodb.MongoClient;
+import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
-import javax.swing.text.Document;
+import org.bson.Document;
 
 public class Main {
+    public static MongoClient client;
+    public static MongoDatabase database;
+    public static MongoCollection<Document> colecion;
 
     public static void main(String[] args) {
 
@@ -23,9 +27,8 @@ public class Main {
         client.close();
     }
 
-    public static MongoClient client;
-    public static MongoDatabase database;
-    public static
+
+
     public static void conectar_a_servidor() {
         client = new MongoClient("localhost", 27017);
 
