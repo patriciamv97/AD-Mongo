@@ -9,15 +9,17 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Projections;
 import org.bson.Document;
 import org.bson.types.ObjectId;
+
 import java.util.logging.Logger;
 import java.util.logging.Level;
+
 public class Main {
     public static MongoClient client;
     public static MongoDatabase database;
     public static MongoCollection<Document> colecion;
 
     public static void main(String[] args) {
-        Logger mongoLogger = Logger.getLogger( "org.mongodb.driver" );
+        Logger mongoLogger = Logger.getLogger("org.mongodb.driver");
         mongoLogger.setLevel(Level.SEVERE);
         conectar_a_servidor();
         conectar_a_base("training");
@@ -37,7 +39,8 @@ public class Main {
         //  colecion.updateOne(new BasicDBObject("kind", "taller"),new BasicDBObject("$set", new BasicDBObject("scores", 98.0)));
         // colecion.deleteOne(new BasicDBObject("kind", "taller"));
         //consultar_por_id(new ObjectId("4c90f2543d937c033f424721"));
-        consultar_por_campo_valor("kind","essay");
+        //consultar_por_campo_valor("student", 99.0);
+        //  actualizar_por_id(new ObjectId("4c90f2543d937c033f424721"), "score",85.0 );
 
         client.close();
 
@@ -75,26 +78,39 @@ public class Main {
         ObjectId idj = d.getObjectId("_id");
         String king = d.getString("kind");
         Double score = d.getDouble("score");
-        System.out.printf("_id: "+idj+" king: "+king+" scores: "+score);
-
+        System.out.printf("_id: " + idj + " king: " + king + " scores: " + score);
 
 
     }
-    public static void consultar_por_campo_valor(String campo, String valor){
-        BasicDBObject condicion = new BasicDBObject(campo, valor);
-        FindIterable<Document> docs = colecion.find(condicion);
+
+    public static void consultar_por_campo_valor(String campo, Object valor) {
+        BasicDBObject allquery = new BasicDBObject("kind", "essay")
+                .append("student", new BasicDBObject("$gt", 0).
+                        append("$lt", 3));
+        //BasicDBObject condicion = new BasicDBObject(campo, valor);
+        //FindIterable<Document> docs = colecion.find(condicion);
+        FindIterable<Document> docs = colecion.find(allquery);
+
         MongoCursor<Document> iterator = docs.iterator();
-        while (iterator.hasNext()){
+        while (iterator.hasNext()) {
             Document d = iterator.next();
             ObjectId idj = d.getObjectId("_id");
             String kind = d.getString("kind");
             Double score = d.getDouble("score");
             Double student = d.getDouble("student");
-            System.out.printf("_id : "+idj+" king: "+kind+" scores: "+score+ " student: "+student+"\n");
+            System.out.printf("_id : " + idj + " king: " + kind + " scores: " + score + " student: " + student + "\n");
 
 
         }
 
 
+    }
+
+    public static void actualizar_por_id(ObjectId _id, String campo, Object valor) {
+        colecion.updateOne(new BasicDBObject("_id", _id), new BasicDBObject("$set", new BasicDBObject(campo, valor)));
+    }
+
+    public static void incrementar_por_id(ObjectId _id, String campo, Object valor) {
+        colecion.updateOne(new BasicDBObject("_id", _id), new BasicDBObject("inc", new BasicDBObject(campo, valor)));
     }
 }
