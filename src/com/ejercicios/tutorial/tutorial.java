@@ -59,7 +59,7 @@ public class tutorial {
                 em.createQuery("SELECT p FROM Point p WHERE p.id =10", Point.class);
         List<Point> results2 = query2.getResultList();
         for (Point p : results2) {
-            System.out.println("Id : "+p.getId() +", coordenadas : "+p.toString());
+            System.out.println("Id : " + p.getId() + ", coordenadas : " + p.toString());
         }
 
 
@@ -72,6 +72,7 @@ public class tutorial {
         em.getTransaction().commit();
 
         // 5) Eliminar el registro con id =5
+
         em.getTransaction().begin();
         int eliminarRegistro = em.createQuery("DELETE  FROM Point p WHERE p.id=5").executeUpdate();
         em.getTransaction().commit();
@@ -88,7 +89,7 @@ public class tutorial {
         //actualizar coordenada y ao valor 1000 para todos os
         //puntos que teñan un valor de y inferior a un valor
         //pasado por parametro (por exemplo facelo para o valor
-        //6)
+        //6
 
         em.getTransaction().begin();
         Query actualizar2 = em.createQuery("UPDATE Point p SET p.y = 1000 WHERE p.y < :z");
@@ -103,9 +104,30 @@ public class tutorial {
         }
 
         */
+
+        /*
+        7) Borrado masivo selectivo masivo(delete queries).
+           Eliminar todos os puntos cuxo valor do atributo y sexa
+           inferior a un valor pasado por parametro ( por exemplo
+           facelo para o valor 3
+         */
+
+        em.getTransaction().begin();
+        Query eliminarRegistro2 = em.createQuery("DELETE  FROM Point p WHERE p.y<: z");
+        int eliminarRegistroy = eliminarRegistro2.setParameter("z", 3).executeUpdate();
+        em.getTransaction().commit();
+
+
+        TypedQuery<Point> query3 =
+                em.createQuery("SELECT p FROM Point p", Point.class);
+        List<Point> results3 = query3.getResultList();
+        for (Point p : results3) {
+            System.out.println("Id : " + p.getId() + " coordenadas : " + p.toString());
+        }
         // Close the database connection:
         em.close();
         emf.close();
+
     }
-    }
+}
 
