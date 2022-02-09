@@ -35,12 +35,12 @@ public class Main {
         Statement stmt = con.createStatement();
         // String cadea = "INSERT INTO produtost VALUES ('p2', 'escoba', 15, null, ('lugo',4))";
         // String cadea = "UPDATE  produtost SET ci.cidade='barna' WHERE codigo = 'p1'";
-        /*
-        Solucionar esto
-        String cadea2 = "UPDATE  produtost SET ci.cp=(ci.cp)+1 WHERE (ci).cidade='barna'";
+
+
+        String cadea2 = "UPDATE  produtost SET ci.cp=(ci).cp+ 1 WHERE (ci).cidade='barna'";
         stmt.executeUpdate(cadea2);
 
-         */
+
 
         String cadea = "SELECT *, (ci).cidade , (ci).cp FROM produtost";
         ResultSet r = stmt.executeQuery(cadea);
