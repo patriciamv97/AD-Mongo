@@ -4,6 +4,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
+import java.sql.SQLException;
 import java.util.List;
 
 public class Odb {
@@ -20,13 +21,14 @@ public class Odb {
      */
     static EntityManager em = emf.createEntityManager();
 
-    public static void mostrarObxetosOdb() {
+    public static void mostrarObxetosOdb() throws SQLException {
         em.getTransaction().begin();
         TypedQuery<Zonas> query =
                 em.createQuery("SELECT z FROM Zonas z", Zonas.class);
         List<Zonas> results = query.getResultList();
         for (Zonas z : results) {
             System.out.println("codz: "+z.getCodz()+ " nomz: "+z.getNomz()+" superficie: "+z.getSuperficie());
+            Mongo.consultar_por_campo_valor("codz",z.getCodz(), z.getNomz());
         }
         em.getTransaction().commit();
         em.close();
