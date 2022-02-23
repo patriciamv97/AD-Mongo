@@ -1,6 +1,7 @@
 package poracleneomongo;
 
 import java.sql.*;
+import java.util.List;
 
 public class Postgres {
     static String driver = "jdbc:postgresql:";
@@ -29,13 +30,20 @@ public class Postgres {
 
     public static void mostrarDatos() throws SQLException {
         Connection con = conexion();
-        String cadea = "SELECT * FROM PRATOS";
+        String cadea = "SELECT *, (tipo).nomeprato , (tipo).prezo FROM PRATO";
         PreparedStatement ps = con.prepareStatement(cadea);
-        ResultSet  rs =ps.getResultSet();
+        ResultSet  rs = ps.executeQuery();
         while(rs.next()){
-
+                String codprato = rs.getString("codprato");
+                String tipo_prato = rs.getString("nomeprato");
+                Double prezo = rs.getDouble("prezo");
+            System.out.println("CODIGO DO PRATO: "+codprato+"\nnome do prato: "+tipo_prato);
+            Odb.mostrarObxetosOdb(codprato);
+            System.out.println("prezo"+prezo);
         }
-        ps.executeQuery();
+
+
+       // ps.executeQuery();
         con.close();
 
     }
