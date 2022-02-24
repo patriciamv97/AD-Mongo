@@ -38,8 +38,9 @@ public class Postgres {
                 String tipo_prato = rs.getString("nomeprato");
                 Double prezo = rs.getDouble("prezo");
             System.out.println("CODIGO DO PRATO: "+codprato+"\nnome do prato: "+tipo_prato);
-            Odb.mostrarObxetosOdb(codprato);
-            System.out.println("prezo"+prezo);
+           int total_graxas_prato= Odb.mostrarObxetosOdb(codprato);
+            System.out.println("prezo "+prezo);
+           Mongo.crearDocumento(codprato, tipo_prato, (double) total_graxas_prato,prezo);
         }
 
 

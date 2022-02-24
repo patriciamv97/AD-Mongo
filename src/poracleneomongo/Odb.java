@@ -10,7 +10,7 @@ public class Odb {
 
 
 
-    public static void mostrarObxetosOdb(String codp) {
+    public static int mostrarObxetosOdb(String codp) {
         int total_graxas_prato=0;
         int totalGraxaComponente=0;
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("/home/oracle/Escritorio/BasesOdb/composta.odb");
@@ -35,10 +35,12 @@ public class Odb {
         }
         System.out.println("\nTOTAL EN GRAXAS DO PRATO:"+ total_graxas_prato);
 
-
         em.getTransaction().commit();
         em.close();
         emf.close();
+        return total_graxas_prato
+  ;
+
     }
 
 }
