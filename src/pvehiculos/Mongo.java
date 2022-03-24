@@ -8,6 +8,8 @@ import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 
+import java.sql.SQLException;
+
 public class Mongo {
     public static MongoClient client;
     public static MongoDatabase database;
@@ -26,7 +28,7 @@ public class Mongo {
         colecion = database.getCollection(coleccion);
     }
 
-    public static void mostrarDatos(){
+    public static void mostrarDatos() throws SQLException {
 
         BasicDBObject condicion = new BasicDBObject();
 
@@ -39,8 +41,8 @@ public class Mongo {
             String dni = d.getString("dni");
             String codveh = d.getString("codveh");
             System.out.println(" _id : " + _id + " dni " + dni+" codveh"+codveh);
-            Odb.obtenerDatosVehiculo(codveh);
-            Odb.obtenerDatosCliente(dni);
+            Odb.obtenerDatos(codveh, dni, _id);
+
 
         }
 
